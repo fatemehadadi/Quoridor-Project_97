@@ -4,9 +4,6 @@ from tkinter import *
 from tkinter import font
 from functools import partial
 from tkinter.ttk import *
-import requests
-import web_urls
-import json
 from quoridor_client import *
 
 class OfflinePage(Frame):
@@ -27,7 +24,8 @@ class OfflinePage(Frame):
         # build buttons of the boardgame
         for i in range(1, 10):
             for j in range(1, 10):
-                self.buttons[i - 1][j - 1] = tk.Button(self, bg="lightblue", state="normal")
+                self.buttons[i - 1][j - 1] = tk.Button(self, bg="lightblue", state="normal",
+                                                       command=partial(self.on_click_place, i-1, j-1))
                 self.buttons[i - 1][j - 1].place(relx=i * 0.09, rely=j * 0.09, height=30, width=30)
                 self.buttons[i - 1][j - 1].bind("<Button-1>",
                                                 lambda e: self.on_click_place(e, i - 1, j - 1))
@@ -43,17 +41,17 @@ class OfflinePage(Frame):
             for j in range(1, 10):
                 self.walls[i - 1][j - 1] = tk.Button(self, state="normal")
                 self.walls[i - 1][j - 1].place(relx=(i + 0.65) * 0.09, rely=j * 0.09, height=30, width=15)
-                self.walls[i - 1][j - 1].bind("<Button-1>",
-                                              lambda e, a=i - 1, b=j - 1: self.on_click_wall(e, i - 1, j - 1))
+                #self.walls[i - 1][j - 1].bind("<Button-1>",pass)
 
 
         backbutton = Button(self, text="back",
                             command=lambda: controller.show_frame("MenuPage"))
         backbutton.pack(side="bottom", fill="x", pady=10)
-        
-    def on_click_place(self, e, i, j):
-        #self.buttons[i][j].config(bg="lightyellow")
+        Button(self, text="start").pack(side="bottom", fill="x", pady=10)
 
+        
+        
+    def on_click_place(self, i, j):
         pass
 
     def on_click_wall(self, e, i, j):
